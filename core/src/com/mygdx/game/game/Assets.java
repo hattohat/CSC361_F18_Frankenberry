@@ -33,17 +33,17 @@ public class Assets implements Disposable, AssetErrorListener {
 		public final AtlasRegion head;
 
 		public AssetJelly (TextureAtlas atlas) {
-			head = atlas.findRegion("bunny_head");
+			head = atlas.findRegion("Character");
 		}
 	}
 
 	public class AssetBrick {
 		public final AtlasRegion edge;
-		public final AtlasRegion middle;
+		//public final AtlasRegion middle;
 
 		public AssetBrick (TextureAtlas atlas) {
-			edge = atlas.findRegion("rock_edge");
-			middle = atlas.findRegion("rock_middle");
+			edge = atlas.findRegion("Brick");
+			//middle = atlas.findRegion("rock_middle");
 		}
 	}
 
