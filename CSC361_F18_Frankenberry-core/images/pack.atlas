@@ -4,6 +4,13 @@ size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+Box
+  rotate: false
+  xy: 935, 153
+  size: 50, 100
+  orig: 50, 100
+  offset: 0, 0
+  index: -1
 Brick
   rotate: false
   xy: 2, 104
@@ -13,7 +20,7 @@ Brick
   index: -1
 Character
   rotate: false
-  xy: 935, 203
+  xy: 484, 101
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
