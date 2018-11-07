@@ -23,7 +23,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetFonts fonts;
 	public AssetJelly jelly;
 	public AssetBrick brick;
-	//public AssetGoldCoin box;
+	public AssetBox box;
 	//public AssetFeather bottle;
 	public AssetLevelDecoration levelDecoration;
 
@@ -70,11 +70,11 @@ public class Assets implements Disposable, AssetErrorListener {
 		}
 	}
 
-	public class AssetGoldCoin {
-		public final AtlasRegion goldCoin;
+	public class AssetBox {
+		public final AtlasRegion box;
 
-		public AssetGoldCoin (TextureAtlas atlas) {
-			goldCoin = atlas.findRegion("item_gold_coin");
+		public AssetBox (TextureAtlas atlas) {
+			box = atlas.findRegion("Box");
 		}
 	}
 
@@ -129,7 +129,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		fonts = new AssetFonts();
 		jelly = new AssetJelly(atlas);
 		brick = new AssetBrick(atlas);
-		//goldCoin = new AssetGoldCoin(atlas);
+		box = new AssetBox(atlas);
 		//feather = new AssetFeather(atlas);
 		levelDecoration = new AssetLevelDecoration(atlas);
 	}
