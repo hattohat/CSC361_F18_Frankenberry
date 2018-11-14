@@ -53,10 +53,10 @@ public class Assets implements Disposable, AssetErrorListener {
 	}
 
 	public class AssetJelly {
-		public final AtlasRegion head;
+		public final AtlasRegion jelly;
 
 		public AssetJelly (TextureAtlas atlas) {
-			head = atlas.findRegion("Character");
+			jelly = atlas.findRegion("Character");
 		}
 	}
 
