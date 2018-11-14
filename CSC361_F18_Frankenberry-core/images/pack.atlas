@@ -1,41 +1,48 @@
 
 pack.png
-size: 1024,256
+size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 Box
   rotate: false
-  xy: 935, 153
+  xy: 935, 264
   size: 50, 100
   orig: 50, 100
   offset: 0, 0
   index: -1
 Brick
   rotate: false
-  xy: 2, 104
+  xy: 2, 215
   size: 449, 149
   orig: 449, 149
   offset: 0, 0
   index: -1
 Character
   rotate: false
-  xy: 484, 101
+  xy: 2, 61
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 Mountain1
   rotate: false
-  xy: 453, 153
+  xy: 453, 264
   size: 480, 100
   orig: 480, 100
   offset: 0, 0
   index: -1
 Mountain2
   rotate: false
-  xy: 2, 2
+  xy: 2, 113
   size: 480, 100
   orig: 480, 100
+  offset: 0, 0
+  index: -1
+bottle
+  rotate: false
+  xy: 484, 2
+  size: 260, 260
+  orig: 260, 260
   offset: 0, 0
   index: -1
