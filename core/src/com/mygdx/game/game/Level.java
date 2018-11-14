@@ -1,10 +1,14 @@
 package com.mygdx.game.game;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.game.objects.AbstractGameObject;
-//import com.mygdx.game.game.objects.Clouds;
+import com.mygdx.game.game.objects.Jelly;
+//import com.packtpub.libgdx.canyonbunny.game.objects.Clouds;
+import com.mygdx.game.game.objects.Bottle;
+import com.mygdx.game.game.objects.Box;
 import com.mygdx.game.game.objects.Mountains;
 import com.mygdx.game.game.objects.Brick;
 //import com.packtpub.libgdx.canyonbunny.game.objects.WaterOverlay;
@@ -35,8 +39,13 @@ public class Level {
 		}
 	}
 
+	// player character
+	public Jelly jelly;
+
 	// objects
 	public Array<Brick> bricks;
+	public Array<Box> boxes;
+	public Array<Bottle> bottles;
 
 	// decoration
 	//public Clouds clouds;
@@ -48,8 +57,13 @@ public class Level {
 	}
 
 	private void init (String filename) {
+		// player character
+		jelly = null;
+
 		// objects
 		bricks = new Array<Brick>();
+		boxes = new Array<Box>();
+		bottles = new Array<Bottle>();
 
 		// load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
@@ -85,12 +99,27 @@ public class Level {
 				}
 				// player spawn point
 				else if (BLOCK_TYPE.PLAYER_SPAWNPOINT.sameColor(currentPixel)) {
+					obj = new Jelly();
+					offsetHeight = -3.0f;
+					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					jelly = (Jelly)obj;
+
 				}
 				// feather
 				else if (BLOCK_TYPE.ITEM_FEATHER.sameColor(currentPixel)) {
+					obj = new Bottle();
+					offsetHeight = -1.5f;
+					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					bottles.add((Bottle)obj);
+
 				}
 				// gold coin
 				else if (BLOCK_TYPE.ITEM_GOLD_COIN.sameColor(currentPixel)) {
+					obj = new Box();
+					offsetHeight = -1.5f;
+					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					boxes.add((Box)obj);
+
 				}
 				// unknown object/pixel color
 				else {
@@ -122,17 +151,38 @@ public class Level {
 		Gdx.app.debug(TAG, "level '" + filename + "' loaded");
 	}
 
+	public void update (float deltaTime) {
+		// Bunny Head
+		jelly.update(deltaTime);
+		// Rocks
+		for (Brick brick : bricks)
+			brick.update(deltaTime);
+		// Gold Coins
+		for (Box box : boxes)
+			box.update(deltaTime);
+		// Feathers
+		for (Bottle bottle : bottles)
+			bottle.update(deltaTime);
+		// Clouds
+		//clouds.update(deltaTime);
+	}
+
 	public void render (SpriteBatch batch) {
 		// Draw Mountains
 		mountains.render(batch);
-
 		// Draw Rocks
 		for (Brick brick : bricks)
 			brick.render(batch);
-
+		// Draw Gold Coins
+		for (Box box : boxes)
+			box.render(batch);
+		// Draw Feathers
+		for (Bottle bottle : bottles)
+			bottle.render(batch);
+		// Draw Player Character
+		jelly.render(batch);
 		// Draw Water Overlay
 		//waterOverlay.render(batch);
-
 		// Draw Clouds
 		//clouds.render(batch);
 	}
