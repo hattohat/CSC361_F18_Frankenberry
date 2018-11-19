@@ -49,12 +49,12 @@ public class WorldController extends InputAdapter {
 
 	public void update (float deltaTime) {
 		handleDebugInput(deltaTime);
-		/*if (isGameOver()) {
+		if (isGameOver()) {
 			timeLeftGameOverDelay -= deltaTime;
 			if (timeLeftGameOverDelay < 0) init();
 		} else {
 			handleInputGame(deltaTime);
-		}*/
+		}
 		level.update(deltaTime);
 		testCollisions();
 		cameraHelper.update(deltaTime);
@@ -82,7 +82,7 @@ public class WorldController extends InputAdapter {
 		for (Brick brick : level.bricks) {
 			r2.set(brick.position.x, brick.position.y, brick.bounds.width, brick.bounds.height);
 			if (!r1.overlaps(r2)) continue;
-			onCollisionJellyWithBrick(brick);
+			if(r1.overlaps(r2)) {onCollisionJellyWithBrick(brick);}
 			// IMPORTANT: must do all collisions for valid edge testing on rocks.
 		}
 

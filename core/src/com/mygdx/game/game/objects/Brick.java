@@ -6,7 +6,7 @@ import com.mygdx.game.game.Assets;
 public class Brick extends AbstractGameObject {
 
 	private TextureRegion regEdge;
-	//private TextureRegion regMiddle;
+	private TextureRegion regMiddle;
 
 	private int length;
 
@@ -18,7 +18,7 @@ public class Brick extends AbstractGameObject {
 		dimension.set(1, 1.5f);
 
 		regEdge = Assets.instance.brick.edge;
-		//regMiddle = Assets.instance.brick.middle;
+		regMiddle = Assets.instance.brick.edge;
 
 		// Start length of this rock
 		setLength(1);
@@ -49,7 +49,7 @@ public class Brick extends AbstractGameObject {
 
 		// Draw middle
 		relX = 0;
-        reg = regEdge;
+        reg = regMiddle;
 		for (int i = 0; i < length; i++) {
 			batch.draw(reg.getTexture(), position.x + relX, position.y + relY, origin.x, origin.y, dimension.x, dimension.y,
 				scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(), false,
