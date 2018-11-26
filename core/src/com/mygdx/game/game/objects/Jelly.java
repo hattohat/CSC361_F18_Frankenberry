@@ -3,6 +3,7 @@ package com.mygdx.game.game.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.game.Assets;
 import com.mygdx.game.util.Constants;
 
@@ -148,6 +149,7 @@ public class Jelly extends AbstractGameObject {
 				// Start counting jump time from the beginning
 				timeJumping = 0;
 				jumpState = JUMP_STATE.JUMP_RISING;
+				body.setLinearVelocity(new Vector2(0, 8));
 			}
 			break;
 		case JUMP_RISING: // Rising in the air

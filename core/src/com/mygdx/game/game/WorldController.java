@@ -5,6 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.game.game.objects.Jelly;
 import com.mygdx.game.game.objects.Jelly.JUMP_STATE;
 import com.mygdx.game.game.objects.Bottle;
@@ -20,6 +28,7 @@ public class WorldController extends InputAdapter {
 	public Level level;
 	public int lives;
 	public int score;
+	public World b2world;
 
 	public CameraHelper cameraHelper;
 
@@ -45,6 +54,7 @@ public class WorldController extends InputAdapter {
 		score = 0;
 		level = new Level(Constants.LEVEL_01);
 		cameraHelper.setTarget(level.jelly);
+		initPhysics();
 	}
 
 	public void update (float deltaTime) {
@@ -56,7 +66,7 @@ public class WorldController extends InputAdapter {
 			handleInputGame(deltaTime);
 		}
 		level.update(deltaTime);
-		testCollisions();
+		//testCollisions();
 		cameraHelper.update(deltaTime);
 		if (!isGameOver() && isPlayerInWater()) {
 			lives--;
@@ -75,75 +85,75 @@ public class WorldController extends InputAdapter {
 		return level.jelly.position.y < -5;
 	}
 
-	private void testCollisions () {
-		r1.set(level.jelly.position.x, level.jelly.position.y, level.jelly.bounds.width, level.jelly.bounds.height);
-
-		// Test collision: Bunny Head <-> Rocks
-		for (Brick brick : level.bricks) {
-			r2.set(brick.position.x, brick.position.y, brick.bounds.width, brick.bounds.height);
-			if (!r1.overlaps(r2)) continue;
-			if(r1.overlaps(r2)) {onCollisionJellyWithBrick(brick);}
-			// IMPORTANT: must do all collisions for valid edge testing on rocks.
-		}
-
-		// Test collision: Bunny Head <-> Gold Coins
-		for (Box box : level.boxes) {
-			if (box.collected) continue;
-			r2.set(box.position.x, box.position.y, box.bounds.width, box.bounds.height);
-			if (!r1.overlaps(r2)) continue;
-			onCollisionJellyWithBox(box);
-			break;
-		}
-
-		// Test collision: Bunny Head <-> Feathers
-		for (Bottle bottle : level.bottles) {
-			if (bottle.collected) continue;
-			r2.set(bottle.position.x, bottle.position.y, bottle.bounds.width, bottle.bounds.height);
-			if (!r1.overlaps(r2)) continue;
-			onCollisionJellyWithBottle(bottle);
-			break;
-		}
-	}
-
-	private void onCollisionJellyWithBrick (Brick brick) {
-		Jelly jelly = level.jelly;
-		float heightDifference = Math.abs(jelly.position.y - (brick.position.y + brick.bounds.height));
-		if (heightDifference > 0.25f) {
-			boolean hitRightEdge  = jelly.position.x > (brick.position.x + brick.bounds.width / 2.0f);
-			if (hitRightEdge ) {
-				jelly.position.x = brick.position.x + brick.bounds.width;
-			} else {
-				jelly.position.x = brick.position.x - jelly.bounds.width;
-			}
-			return;
-		}
-
-		switch (jelly.jumpState) {
-		case GROUNDED:
-			break;
-		case FALLING:
-		case JUMP_FALLING:
-			jelly.position.y = brick.position.y + jelly.bounds.height + jelly.origin.y;
-			jelly.jumpState = JUMP_STATE.GROUNDED;
-			break;
-		case JUMP_RISING:
-			jelly.position.y = brick.position.y + jelly.bounds.height + jelly.origin.y;
-			break;
-		}
-	}
-
-	private void onCollisionJellyWithBox (Box box) {
-		box.collected = true;
-		score += box.getScore();
-		Gdx.app.log(TAG, "Box collected");
-	}
-
-	private void onCollisionJellyWithBottle (Bottle bottle) {
-		bottle.collected = true;
-		score += bottle.getScore();
-		level.jelly.setBottlePowerup(true);
-		Gdx.app.log(TAG, "Bottle collected");
-	}
+//	private void testCollisions () {
+//		r1.set(level.jelly.position.x, level.jelly.position.y, level.jelly.bounds.width, level.jelly.bounds.height);
+//
+//		// Test collision: Bunny Head <-> Rocks
+//		for (Brick brick : level.bricks) {
+//			r2.set(brick.position.x, brick.position.y, brick.bounds.width, brick.bounds.height);
+//			if (!r1.overlaps(r2)) continue;
+//			if(r1.overlaps(r2)) {onCollisionJellyWithBrick(brick);}
+//			// IMPORTANT: must do all collisions for valid edge testing on rocks.
+//		}
+//
+//		// Test collision: Bunny Head <-> Gold Coins
+//		for (Box box : level.boxes) {
+//			if (box.collected) continue;
+//			r2.set(box.position.x, box.position.y, box.bounds.width, box.bounds.height);
+//			if (!r1.overlaps(r2)) continue;
+//			onCollisionJellyWithBox(box);
+//			break;
+//		}
+//
+//		// Test collision: Bunny Head <-> Feathers
+//		for (Bottle bottle : level.bottles) {
+//			if (bottle.collected) continue;
+//			r2.set(bottle.position.x, bottle.position.y, bottle.bounds.width, bottle.bounds.height);
+//			if (!r1.overlaps(r2)) continue;
+//			onCollisionJellyWithBottle(bottle);
+//			break;
+//		}
+//	}
+//
+//	private void onCollisionJellyWithBrick (Brick brick) {
+//		Jelly jelly = level.jelly;
+//		float heightDifference = Math.abs(jelly.position.y - (brick.position.y + brick.bounds.height));
+//		if (heightDifference > 0.25f) {
+//			boolean hitRightEdge  = jelly.position.x > (brick.position.x + brick.bounds.width / 2.0f);
+//			if (hitRightEdge ) {
+//				jelly.position.x = brick.position.x + brick.bounds.width;
+//			} else {
+//				jelly.position.x = brick.position.x - jelly.bounds.width;
+//			}
+//			return;
+//		}
+//
+//		switch (jelly.jumpState) {
+//		case GROUNDED:
+//			break;
+//		case FALLING:
+//		case JUMP_FALLING:
+//			jelly.position.y = brick.position.y + jelly.bounds.height + jelly.origin.y;
+//			jelly.jumpState = JUMP_STATE.GROUNDED;
+//			break;
+//		case JUMP_RISING:
+//			jelly.position.y = brick.position.y + jelly.bounds.height + jelly.origin.y;
+//			break;
+//		}
+//	}
+//
+//	private void onCollisionJellyWithBox (Box box) {
+//		box.collected = true;
+//		score += box.getScore();
+//		Gdx.app.log(TAG, "Box collected");
+//	}
+//
+//	private void onCollisionJellyWithBottle (Bottle bottle) {
+//		bottle.collected = true;
+//		score += bottle.getScore();
+//		level.jelly.setBottlePowerup(true);
+//		Gdx.app.log(TAG, "Bottle collected");
+//	}
 
 	private void handleDebugInput (float deltaTime) {
 		if (Gdx.app.getType() != ApplicationType.Desktop) return;
@@ -173,8 +183,10 @@ public class WorldController extends InputAdapter {
 		if (cameraHelper.hasTarget(level.jelly)) {
 			// Player Movement
 			if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+				Level.jelly.body.setLinearVelocity(new Vector2(-3,0));
 				level.jelly.velocity.x = -level.jelly.terminalVelocity.x;
 			} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+				Level.jelly.body.setLinearVelocity(new Vector2(-3,0));
 				level.jelly.velocity.x = level.jelly.terminalVelocity.x;
 			} else {
 				// Execute auto-forward movement on non-desktop platform
@@ -210,5 +222,92 @@ public class WorldController extends InputAdapter {
 			Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
 		}
 		return false;
+	}
+	
+	public void initPhysics() {
+		if (b2world != null)
+		{
+			b2world.dispose();
+		}
+		b2world = new World(new Vector2(0, -9.81f), true);
+		b2world.setContactListener(new CollisionHandler(this));
+		
+		Vector2 origin = new Vector2();
+		
+		//create bricks
+		for(Brick brick : level.bricks)
+		{
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.type = BodyType.KinematicBody;
+			bodyDef.position.set(brick.position);
+			Body body = b2world.createBody(bodyDef);
+			body.setUserData(brick);
+			brick.body = body;
+			PolygonShape polygonShape = new PolygonShape();
+			origin.x = brick.bounds.width /2.0f;
+			origin.y = brick.bounds.height / 2.0f;
+			polygonShape.setAsBox(brick.bounds.width/2.0f, brick.bounds.height/2.0f, origin, 0);
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.friction = 0.5f;
+			fixtureDef.shape = polygonShape;
+			body.createFixture(fixtureDef);
+			polygonShape.dispose();
+		}
+		
+		for(Box box : level.boxes)
+		{
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.type = BodyType.KinematicBody;
+			bodyDef.position.set(box.position);
+			Body body = b2world.createBody(bodyDef);
+			body.setUserData(box);
+			box.body = body;
+			PolygonShape polygonShape = new PolygonShape();
+			origin.x = box.bounds.width /2.0f;
+			origin.y = box.bounds.height / 2.0f;
+			polygonShape.setAsBox(box.bounds.width/2.0f, box.bounds.height/2.0f, origin, 0);
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.friction = 0.5f;
+			fixtureDef.shape = polygonShape;
+			fixtureDef.isSensor = true;
+			body.createFixture(fixtureDef);
+			polygonShape.dispose();
+		}
+		
+		for(Bottle bottle : level.bottles)
+		{
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.type = BodyType.KinematicBody;
+			bodyDef.position.set(bottle.position);
+			Body body = b2world.createBody(bodyDef);
+			body.setUserData(bottle);
+			bottle.body = body;
+			PolygonShape polygonShape = new PolygonShape();
+			origin.x = bottle.bounds.width /2.0f;
+			origin.y = bottle.bounds.height / 2.0f;
+			polygonShape.setAsBox(bottle.bounds.width/2.0f, bottle.bounds.height/2.0f, origin, 0);
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.friction = 0.5f;
+			fixtureDef.shape = polygonShape;
+			fixtureDef.isSensor = true;
+			body.createFixture(fixtureDef);
+			polygonShape.dispose();
+		}
+		
+		Jelly jelly = Level.jelly;
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyType.DynamicBody;
+		bodyDef.position.set(jelly.position);
+		Body body = b2world.createBody(bodyDef);
+		body.setUserData(jelly);
+		jelly.body = body;
+		PolygonShape polygonShape = new PolygonShape();
+		origin.x = jelly.bounds.width/2.0f;
+		origin.y = jelly.bounds.height/2.0f;
+		polygonShape.setAsBox(origin.x, origin.y, origin, 0);
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape=polygonShape;
+		body.createFixture(fixtureDef);
+		polygonShape.dispose();
 	}
 }
