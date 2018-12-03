@@ -18,6 +18,7 @@ public class DesktopLauncher {
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
 			TexturePacker.process(settings, "assets-raw/images", "../CSC361_F18_Frankenberry-core/images", "pack");
+			TexturePacker.process(settings, "assets-raw/images-ui", "../CSC361_F18_Frankenberry-core/images", "uipack");
 		}
 
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
