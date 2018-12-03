@@ -24,7 +24,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetJelly jelly;
 	public AssetBrick brick;
 	public AssetBox box;
-	//public AssetFeather bottle;
+	public AssetBottle bottle;
 	public AssetLevelDecoration levelDecoration;
 
 	// singleton: prevent instantiation from other classes
@@ -53,10 +53,10 @@ public class Assets implements Disposable, AssetErrorListener {
 	}
 
 	public class AssetJelly {
-		public final AtlasRegion head;
+		public final AtlasRegion jelly;
 
 		public AssetJelly (TextureAtlas atlas) {
-			head = atlas.findRegion("Character");
+			jelly = atlas.findRegion("Character");
 		}
 	}
 
@@ -78,11 +78,11 @@ public class Assets implements Disposable, AssetErrorListener {
 		}
 	}
 
-	public class AssetFeather {
-		public final AtlasRegion feather;
+	public class AssetBottle {
+		public final AtlasRegion bottle;
 
-		public AssetFeather (TextureAtlas atlas) {
-			feather = atlas.findRegion("item_feather");
+		public AssetBottle (TextureAtlas atlas) {
+			bottle = atlas.findRegion("bottle");
 		}
 	}
 
@@ -130,7 +130,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		jelly = new AssetJelly(atlas);
 		brick = new AssetBrick(atlas);
 		box = new AssetBox(atlas);
-		//feather = new AssetFeather(atlas);
+		bottle = new AssetBottle(atlas);
 		levelDecoration = new AssetLevelDecoration(atlas);
 	}
 
