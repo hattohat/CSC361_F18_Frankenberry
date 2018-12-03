@@ -40,7 +40,7 @@ public class Level {
 	}
 
 	// player character
-	public Jelly jelly;
+	public static Jelly jelly;
 
 	// objects
 	public Array<Brick> bricks;
