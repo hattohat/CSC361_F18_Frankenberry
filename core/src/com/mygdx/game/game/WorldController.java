@@ -68,6 +68,7 @@ public class WorldController extends InputAdapter {
 		level.update(deltaTime);
 		//testCollisions();
 		cameraHelper.update(deltaTime);
+		b2world.step(deltaTime, 8, 3);
 		if (!isGameOver() && isPlayerInWater()) {
 			lives--;
 			if (isGameOver())
@@ -186,7 +187,7 @@ public class WorldController extends InputAdapter {
 				Level.jelly.body.setLinearVelocity(new Vector2(-3,0));
 				level.jelly.velocity.x = -level.jelly.terminalVelocity.x;
 			} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-				Level.jelly.body.setLinearVelocity(new Vector2(-3,0));
+				Level.jelly.body.setLinearVelocity(new Vector2(3,0));
 				level.jelly.velocity.x = level.jelly.terminalVelocity.x;
 			} else {
 				// Execute auto-forward movement on non-desktop platform
@@ -244,9 +245,9 @@ public class WorldController extends InputAdapter {
 			body.setUserData(brick);
 			brick.body = body;
 			PolygonShape polygonShape = new PolygonShape();
-			origin.x = brick.bounds.width /2.0f;
+			origin.x = brick.bounds.width / 2.0f;
 			origin.y = brick.bounds.height / 2.0f;
-			polygonShape.setAsBox(brick.bounds.width/2.0f, brick.bounds.height/2.0f, origin, 0);
+			polygonShape.setAsBox(brick.bounds.width / 2.0f, brick.bounds.height / 2.0f, origin, 0);
 			FixtureDef fixtureDef = new FixtureDef();
 			fixtureDef.friction = 0.5f;
 			fixtureDef.shape = polygonShape;
@@ -302,11 +303,11 @@ public class WorldController extends InputAdapter {
 		body.setUserData(jelly);
 		jelly.body = body;
 		PolygonShape polygonShape = new PolygonShape();
-		origin.x = jelly.bounds.width/2.0f;
-		origin.y = jelly.bounds.height/2.0f;
-		polygonShape.setAsBox(origin.x, origin.y, origin, 0);
+		origin.x = jelly.bounds.width / 2.0f;
+		origin.y = jelly.bounds.height / 2.0f;
+		polygonShape.setAsBox(jelly.bounds.width / 2.0f, jelly.bounds.height / 2.0f, origin, 0);
 		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape=polygonShape;
+		fixtureDef.shape = polygonShape;
 		body.createFixture(fixtureDef);
 		polygonShape.dispose();
 	}

@@ -28,18 +28,18 @@ public class CollisionHandler implements ContactListener
 	listeners = new ObjectMap<Short, ObjectMap<Short, ContactListener>>();
     }
 
-    public void addListener(short categoryA, short categoryB, ContactListener listener)
-    {
-	addListenerInternal(categoryA, categoryB, listener);
-	addListenerInternal(categoryB, categoryA, listener);
-    }
+//    public void addListener(short categoryA, short categoryB, ContactListener listener)
+//    {
+//	addListenerInternal(categoryA, categoryB, listener);
+//	addListenerInternal(categoryB, categoryA, listener);
+//    }
 
     @Override
     public void beginContact(Contact contact)
     {
 	Fixture fixtureA = contact.getFixtureA();
 	Fixture fixtureB = contact.getFixtureB();
-
+    processContact(contact);
 	//Gdx.app.log("CollisionHandler-begin A", "begin");
 
 	ContactListener listener = getListener(fixtureA.getFilterData().categoryBits, fixtureB.getFilterData().categoryBits);
@@ -83,28 +83,28 @@ public class CollisionHandler implements ContactListener
     public void postSolve(Contact contact, ContactImpulse impulse)
     {
 	//Gdx.app.log("CollisionHandler-postSolve A", "postSolve");
-	Fixture fixtureA = contact.getFixtureA();
-	Fixture fixtureB = contact.getFixtureB();
+	//Fixture fixtureA = contact.getFixtureA();
+	//Fixture fixtureB = contact.getFixtureB();
 
-	processContact(contact);
-
-	ContactListener listener = getListener(fixtureA.getFilterData().categoryBits, fixtureB.getFilterData().categoryBits);
-	if (listener != null)
-	{
-	    listener.postSolve(contact, impulse);
-	}
+	this.processContact(contact);
     }
-
-    private void addListenerInternal(short categoryA, short categoryB, ContactListener listener)
-    {
-	ObjectMap<Short, ContactListener> listenerCollection = listeners.get(categoryA);
-	if (listenerCollection == null)
-	{
-	    listenerCollection = new ObjectMap<Short, ContactListener>();
-	    listeners.put(categoryA, listenerCollection);
-	}
-	listenerCollection.put(categoryB, listener);
-    }
+//	ContactListener listener = getListener(fixtureA.getFilterData().categoryBits, fixtureB.getFilterData().categoryBits);
+//	if (listener != null)
+//	{
+//	    listener.postSolve(contact, impulse);
+//	}
+//    }
+//
+//    private void addListenerInternal(short categoryA, short categoryB, ContactListener listener)
+//    {
+//	ObjectMap<Short, ContactListener> listenerCollection = listeners.get(categoryA);
+//	if (listenerCollection == null)
+//	{
+//	    listenerCollection = new ObjectMap<Short, ContactListener>();
+//	    listeners.put(categoryA, listenerCollection);
+//	}
+//	listenerCollection.put(categoryB, listener);
+//    }
 
     private ContactListener getListener(short categoryA, short categoryB)
     {
@@ -124,30 +124,19 @@ public class CollisionHandler implements ContactListener
     	AbstractGameObject objA = (AbstractGameObject) fixtureA.getBody().getUserData();
 		AbstractGameObject objB = (AbstractGameObject) fixtureB.getBody().getUserData();
 
-		if ((objA instanceof Jelly) && (objB instanceof Brick))
+		if ((objA instanceof Jelly) && (objB instanceof Brick)||(objB instanceof Jelly) && (objA instanceof Brick))
 		{
 			processBrickContact(fixtureA, fixtureB);
 		}
-		else if ((objB instanceof Jelly) && (objA instanceof Brick))
-		{
-			processBrickContact(fixtureB, fixtureA);
-		}
-		else if ((objA instanceof Jelly) && (objB instanceof Box))
+		if ((objA instanceof Jelly) && (objB instanceof Box)||(objB instanceof Jelly) && (objA instanceof Box))
 		{
 			processBoxContact(fixtureA, fixtureB);
 		}
-		else if ((objB instanceof Jelly) && (objA instanceof Box))
-		{
-			processBoxContact(fixtureB, fixtureA);
-		}
-		else if ((objA instanceof Jelly) && (objB instanceof Bottle))
+		if ((objA instanceof Jelly) && (objB instanceof Bottle)||(objB instanceof Jelly) && (objA instanceof Bottle))
 		{
 			processBottleContact(fixtureA, fixtureB);
 		}
-		else if ((objB instanceof Jelly) && (objA instanceof Bottle))
-		{
-			processBottleContact(fixtureB, fixtureA);
-		}
+		
     }
 
     private void processBrickContact(Fixture jellyFixture, Fixture brickFixture)
