@@ -1,6 +1,7 @@
 package com.mygdx.game.game;
 
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
@@ -24,6 +25,8 @@ import com.mygdx.game.util.Constants;
 public class WorldController extends InputAdapter {
 
 	private static final String TAG = WorldController.class.getName();
+	
+	private Game game;
 
 	public Level level;
 	public int lives;
@@ -38,7 +41,8 @@ public class WorldController extends InputAdapter {
 
 	private float timeLeftGameOverDelay;
 
-	public WorldController () {
+	public WorldController (Game game) {
+		this.game =game;
 		init();
 	}
 

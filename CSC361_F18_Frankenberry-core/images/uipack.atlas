@@ -1,0 +1,69 @@
+
+uipack.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 2, 551
+  size: 707, 427
+  orig: 707, 427
+  offset: 0, 0
+  index: -1
+bunny
+  rotate: false
+  xy: 2, 2
+  size: 338, 310
+  orig: 338, 310
+  offset: 0, 0
+  index: -1
+coins
+  rotate: false
+  xy: 711, 679
+  size: 189, 299
+  orig: 189, 299
+  offset: 0, 0
+  index: -1
+info
+  rotate: false
+  xy: 2, 422
+  size: 600, 127
+  orig: 600, 127
+  offset: 0, 0
+  index: -1
+logo
+  rotate: false
+  xy: 2, 314
+  size: 600, 106
+  orig: 600, 106
+  offset: 0, 0
+  index: -1
+options-dn
+  rotate: false
+  xy: 342, 162
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+options-up
+  rotate: false
+  xy: 342, 10
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+play-dn
+  rotate: false
+  xy: 711, 527
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+play-up
+  rotate: false
+  xy: 494, 162
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
