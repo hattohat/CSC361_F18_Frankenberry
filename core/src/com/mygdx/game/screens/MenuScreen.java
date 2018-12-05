@@ -79,7 +79,7 @@ public class MenuScreen extends AbstractGameScreen {
 
 		stage.act(deltaTime);
 		stage.draw();
-		Table.drawDebug(stage);
+		stage.setDebugAll(false);
 	}
 
 	@Override
@@ -327,7 +327,7 @@ public class MenuScreen extends AbstractGameScreen {
 	}
 
 	private void onPlayClicked() {
-		game.setScreen(new GameScreen(game));
+		//game.setScreen(new GameScreen(game));
 	}
 
 	private void onOptionsClicked() {

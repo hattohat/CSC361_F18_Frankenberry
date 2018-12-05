@@ -4,35 +4,35 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-Juice_Box
-  rotate: false
-  xy: 711, 679
-  size: 189, 299
-  orig: 189, 299
-  offset: 0, 0
-  index: -1
-MenuBackground
+background
   rotate: false
   xy: 2, 551
   size: 707, 427
   orig: 707, 427
   offset: 0, 0
   index: -1
-MenuJelly
+bunny
   rotate: false
   xy: 2, 2
   size: 338, 310
   orig: 338, 310
   offset: 0, 0
   index: -1
-Subtitle
+coins
+  rotate: false
+  xy: 711, 679
+  size: 189, 299
+  orig: 189, 299
+  offset: 0, 0
+  index: -1
+info
   rotate: false
   xy: 2, 422
   size: 600, 127
   orig: 600, 127
   offset: 0, 0
   index: -1
-TitleImage
+logo
   rotate: false
   xy: 2, 314
   size: 600, 106
